@@ -39,6 +39,6 @@ query = f"UPDATE data SET weight = ? WHERE id = 1"
 cursor.execute(query, [db_array])
 connect.commit()
 
-# print(f"\n{arr}")
+# print(f"\n{arr}") #debug
 
 #************************************************************************************************************************

@@ -22,4 +22,4 @@ output = 1 / (1 + exp(-(dot(task, synaptic_weights))))
 if output == 0.5:
     print("похуй")
 else:
-    print(output)
+    print(f"Не округленный выход сети:\n{output}")

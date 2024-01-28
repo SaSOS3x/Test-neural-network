@@ -13,13 +13,50 @@ res = cursor.fetchall()
 
 
 
-synaptic_weights = pickle.loads(res[0][0])
+synaptic_weights = pickle.loads(res[0][0]) # Преобразование данных в массив numpy
 
-task = array([[0,0,0,1]])
 
-output = 1 / (1 + exp(-(dot(task, synaptic_weights))))
 
-if output == 0.5:
-    print("похуй")
-else:
-    print(f"Не округленный выход сети:\n{output}")
+task = array([[1,1,0,0]]) # Массив - задача
+
+output = 1 / (1 + exp(-(dot(task, synaptic_weights)))) # Расчет выхода, сначала считаем выход, потом находим ошибку
+
+
+# Тут нужно будет сделать норм функцию для обучения каждого нейрона
+def autolearn(synaptic_weights):
+    
+    # Решение: Это система нахождения фактического ответа для обучения
+    if task[0, 0] == 1:
+        task_output = array([[1]]).T
+    else:
+        task_output = array([[0]]).T
+
+    print(task_output) # Debug
+
+    synaptic_weights += dot(task.T, (task_output - output) * output * (1 - output))
+
+    return synaptic_weights
+
+
+
+new_synaptic_weights = autolearn(synaptic_weights) # Получили новое значение синаптического веса
+
+
+# Это можно заключить в функцию, но пока не нада
+db_array = pickle.dumps(new_synaptic_weights) # Преобразование данных в бинарный массив
+
+query = f"UPDATE data SET weight = ? WHERE id = 1"
+
+cursor.execute(query, [db_array])
+connect.commit()
+
+
+
+print(f"Не округленный выход сети:\n{output}\nНовый вес нейрона получен: {db_array}") # Result
+
+
+
+
+
+
+

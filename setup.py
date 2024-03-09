@@ -17,7 +17,7 @@ synaptic_weights = pickle.loads(res[0][0]) # Преобразование дан
 
 
 
-task = array([[1,1,0,0]]) # Массив - задача
+task = array([[0,0,1,0]]) # Массив - задача
 
 output = 1 / (1 + exp(-(dot(task, synaptic_weights)))) # Расчет выхода, сначала считаем выход, потом находим ошибку
 
